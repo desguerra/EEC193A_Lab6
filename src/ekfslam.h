@@ -40,7 +40,7 @@ class EKFSLAM {
         float _motion_noise = 0.1);
 
     // Standard Destructor
-    virtual ~EKFSLAM();
+    ~EKFSLAM();
 
 
     /****** TODO *********/
