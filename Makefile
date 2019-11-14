@@ -3,7 +3,7 @@ CC     := g++
 
 # Compile options
 IDIR   := /usr/include/python2.7
-CFLAGS := -I$(IDIR) -Wall
+CFLAGS := -I$(IDIR) -Wall -g
 
 # Python library
 LINK   := -lpython2.7
