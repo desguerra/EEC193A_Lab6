@@ -18,7 +18,6 @@ Mapper initMapper(const string& filename) {
 }
 
 int main(int argc, char* argv[]) {
-    cout << "##### EFK SLAM #####" << endl;
     if (argc != 3) {
         cerr << "Incorrect Number of command line argument. Expecting 3" << endl;
         cerr << "Run ./bin/EKFSLAM <path-to-sensor> <path-to-world> " << endl;
@@ -27,11 +26,12 @@ int main(int argc, char* argv[]) {
 
     MeasurementPackage measurement = initMesurement(argv[1]);
     Mapper mapper = initMapper(argv[2]);
+    unsigned int landmark_size = mapper.data.size();
+    EKFSLAM slam = EKFSLAM(landmark_size);
 
-    for (MapPoint point : mapper.data) {
-        cout << "Id: " << point.id
-             << " x: "  << point.x
-             << " y: "  << point.y << endl;
+    for (Record record : measurement.data) {
+        slam.Prediction(record.odo);
+        slam.Correction(record.scans);
     }
 
     return 0;

@@ -25,6 +25,8 @@ class EKFSLAM {
     // Vector of observed landmarks
     vector<bool> observedLandmarks;
 
+    int lm_size;
+
  public:
     // Default Constructor
     EKFSLAM();
@@ -42,14 +44,24 @@ class EKFSLAM {
     // Standard Destructor
     ~EKFSLAM();
 
-
+    float AngleNormalization(float angle);
+    void SetState(float x, float y, float theta);
+    void SetLandmark(int id, float x, float y);
+    void SetRobotSigma(float r1, float t, float theta);
+    void SetRobotMapSigma(const LaserReading& obs, float theta);
+    void SetMapSigma();
+    void SetSigma();
     /****** TODO *********/
     // Description: Prediction step for the EKF based off an odometry model
     // Inputs:
     // motion - struct with the control input for one time step
     void Prediction(const OdoReading& motion);
 
-
+    Eigen::MatrixXd GetMtxz(float range, float bearing, float q, float x_sigma, float y_sigma, float theta);
+    Eigen::MatrixXd GetMtxF(uint64_t obs_id);
+    Eigen::MatrixXd GetMtxh(float q, float x_sigma, float y_sigma);
+    Eigen::MatrixXd GetMtxH(float q, Eigen::MatrixXd F, Eigen::MatrixXd h);
+    Eigen::MatrixXd GetKalmanGain(Eigen::MatrixXd H);
     /****** TODO *********/
     // Description: Correction step for EKF
     // Inputs:
